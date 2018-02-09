@@ -84,8 +84,7 @@ nce the repository observser file is invoked, it starts the `poll()` function. T
             subprocess.check_output(["./update_repo.sh", args.repo])
         except subprocess.CalledProcessError as e:
             raise Exception("Could not update and check repository. " + " Reason: %s" % e.output)
-
-    "
-
 '''
+
+
 

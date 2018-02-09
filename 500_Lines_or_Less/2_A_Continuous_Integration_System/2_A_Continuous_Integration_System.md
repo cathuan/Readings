@@ -68,5 +68,7 @@ We run the `repo_observer.py` program to constantly (every 5s) observe the git r
 
 The step by step breakdown of `update_repo.sh` and `repo_observer.py` are included in the files.
 
+__NOTE:__ We need to know the server ip and port of another machine. If we know the name of the machine, we can use `ping MACHINE_NAME` to get the ip address. _I don't know the way to find the port. Maybe always 8888?_
+
 
 ## The Dispatcher (`dispatcher.py`)

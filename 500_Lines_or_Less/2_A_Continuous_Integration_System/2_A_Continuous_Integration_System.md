@@ -60,31 +60,13 @@ For the purposes of this example, the observer will only dispatch tests against 
 
 The observer must know which repository to observe. We previously created a clone of our repository at `/path/to/tset_repo_clone_obs`. The observer will use the clone to detect chagnes.The repo observer will use this clone to pull from the main repository.
 
-We must give the observer the dispatchers address, so the observer may send it messages. When you start the repository observer, you can pass in the dispatches' server address using the `--dispatcher-server` command line argument. If you don't pass it in, it will assume the default address of `localhost:8888`.
+We run the `repo_observer.py` program to constantly (every 5s) observe the git repo
+- It run `update_repo.sh` to grep the commit id of newest commitment.
+- If a new commit is seen, a file `.commit_id` will be created containing the newest commit id.
+- If it sees a new commit, it tells the dispatcher host the corresponding commit id.
+- After everything has been done, it sleeps for 5 seconds and run itself again.
 
-''' python
-    def poll():
-        parser = argparse.ArgumentParser()
-        parser.add_argument("--dispatcher-server", help="dispatcher host::port, by default it uses localhost:8888",
-                            default="localhost:8888", action="store")
-        parser.add_argument("repo", metavar="REPO", type=str,
-                            help="path to the repository this will observe")
-        args = parser.parse_args()
-        dispatcher_host, dispatcher_port = args.dispatcher_server.split(":")
-'''
-
-nce the repository observser file is invoked, it starts the `poll()` function. This function parse the command line arguments, and then kick off an infnite while loop. The while loop is used to periodically check the repository for chagnes. The first thing is does is call the `update_repo.sh` script.
-
-''' python
-    while True:
-        try:
-            # call the bash script that will update the repo and check
-            # for changes. If there is a change, it will drop a .commit_id file
-            # with the latest commit in the current working directory
-            subprocess.check_output(["./update_repo.sh", args.repo])
-        except subprocess.CalledProcessError as e:
-            raise Exception("Could not update and check repository. " + " Reason: %s" % e.output)
-'''
+The step by step breakdown of `update_repo.sh` and `repo_observer.py` are included in the files.
 
 
-
+## The Dispatcher (`dispatcher.py`)

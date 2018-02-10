@@ -72,3 +72,24 @@ __NOTE:__ We need to know the server ip and port of another machine. If we know 
 
 
 ## The Dispatcher (`dispatcher.py`)
+
+The dispatcher is a service used to delegate testing tasks. Looks like it's the central server controls and distribute tasks.
+- It listens on a port for requests from test runners and from the repository observer.
+- It allows test runners to register themselves
+- When given a commit id from repo observer, it will dispatch a test runner against the new commit.
+- It observes problems from test runner and redistribute a new test runner for the commit id if some problem occurs.
+
+The detailed line by line explanation of `dispatch.py` is in the file.
+
+
+## The Test Runner (`test_runner.py`)
+
+The test runner is responsible for running tests against a given commit ID and reporting the result to the dispatcher. It communicates with only dispatcher.
+
+When the `test_runner.py` file is invoked,
+- it calls the `serve` function which starts the test runner server
+- it also starts a thread to run the `dispatcher_checker` function
+
+The start up method is similar as `dispatcher.py`, we omit the code here. Write down your version then.
+
+

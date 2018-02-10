@@ -22,6 +22,19 @@ The constructor is
 
 which usses datagrams, i.e. discrete packets of information that may arrive out of order or be lost while in transit.
 
+### TCP and UDP
+
+I'm not the expert, but I want to understand certain difference of TCP and UDP.
+
+- TCP is reliable, order maintained, slow, and hard to improve.
+- UDP is fast, time critical, and requires less internet bandwidth.
+
+That's why in an exchange
+- Market Data is sent through UDP, with A/B feeder to avoid missing packets (and packet id and request for packet id in case market data missing), because people want to see MD as soon as possible.
+- Order sending is TCP, because it must be reliable, and usually less messages will be sent comparing to MD. People don't want order add to be missing, and strongly want to avoid mod/del message missing. Response is another way to guarantee this will not happen.
+
+It's just trade off.
+
 ### `UnixStreamServer` and `UnixDatagramServer`
 
 These two more infrequently used classes are similar to `TCPServer` and `UDPServer`, instead they are using UNIX domain sockets, which are not available for Non-Unix platform.

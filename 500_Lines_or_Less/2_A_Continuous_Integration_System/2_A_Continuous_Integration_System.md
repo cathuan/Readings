@@ -92,4 +92,38 @@ When the `test_runner.py` file is invoked,
 
 The start up method is similar as `dispatcher.py`, we omit the code here. Write down your version then.
 
+![Control Flow](control_flow.png)
 
+
+## Error Handling
+
+This CI system has very simple error handling.
+
+- Dispatcher will notice the runner was failed and disconnect it from its list.
+- Dispatcher will notice the runner working with some task fails and redistribute the task to some other free runner.
+- Repository observer will notice the dispatcher down and throw an exception. The runners will notice it and shut down automatically.
+
+
+## Conclusion
+
+- Here we separate the concerns into different processes and build a simple distributed continuous integration system.
+- Via communication through sockets, we can distribute different components into different machines.
+
+We are possible to extend the CI system. Here are a few possibilities.
+
+### Per-commit test runs
+
+### Smarter Test Runners
+
+Now test runners stop when it detects the dispatcher fails and stop itself even during a task. But it will be useful if the test runners wait for a certain amount of the time so the dispatcher has a chance to come back.
+
+Or, test runners can finish the job, logs the test results, and wait for the dispatchers to come back and send the results afterwards.
+
+### Real Reporting
+
+# Take away from this post
+
+Here I feel like I have learnt something:
+
+- Multithreading and distributed system communicated via sockets. Looks like understanding this part will be helpful in the future, and using Python we should be able to make these happen without tooooo much efforts.
+- A lot of work can be done via logging to a hidden file or directory (add a `.` at the beginning of the filename or dirname). It has been done all over the place, like bash config file, vim config file, vim/zsh plugin management folder. Why should not we do the same thing?

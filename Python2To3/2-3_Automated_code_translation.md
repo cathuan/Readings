@@ -42,3 +42,9 @@ A good rule of thumb is that if you want to be confident enough in your test sui
 Try to get 80% coverage rate, and maybe get 90% coverage. `coverage.py` is a good way to do so.
 
 ## Learn the differences betwee Python 2 & 3
+
+Once you have your code well-tested you are ready to begin porting your code to Python 3. But to fully understand how your code is going to change and what you want to look out for while you code, you will want to learn what changes Python 3 makes in terms of Python 2.
+
+What's new in Python: https://docs.python.org/3/whatsnew/index.html
+Supporting Python 3: An in-depth guide: http://python3porting.com
+Cheat sheet: http://python-future.org/compatible_idioms.html

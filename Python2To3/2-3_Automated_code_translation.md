@@ -40,3 +40,5 @@ Oce you have your code supporting the oldest version of Pythhon 2, you will want
 A good rule of thumb is that if you want to be confident enough in your test suite that any failures that appear after having tools rewrite your code are actually bugs in thhe tools and not in your code.
 
 Try to get 80% coverage rate, and maybe get 90% coverage. `coverage.py` is a good way to do so.
+
+## Learn the differences betwee Python 2 & 3

@@ -18,6 +18,19 @@ To make your project be single-source Python 2/3 compatible, the basic steps:
 ## Use Python -Qwarm program.py  or -Qwarmall to warm the divisions. It will be very helpful.
 Check pep238
 https://www.python.org/dev/peps/pep-0238/
+This one can be caught by `-3` flag as well.
+
+## `Pylint` to give warning for python 3 compatibility
+
+Use `pylint --py3k` flag to lint your code to receive warnings when your code begins to deviate from `Python 3` compatibility.
+
+## Use python's internal warning sign
+
+Use `python -3` flag to be warned bout various compatibility issues.
+
+Use `python -Werror` flag to crash code when you receive a warning, or `python -We::Depreciation` which turns depreciation warnings into error
+
+May check pep230 https://www.python.org/dev/peps/pep-0230/
 
 
 # Details
@@ -48,3 +61,50 @@ Once you have your code well-tested you are ready to begin porting your code to 
 What's new in Python: https://docs.python.org/3/whatsnew/index.html
 Supporting Python 3: An in-depth guide: http://python3porting.com
 Cheat sheet: http://python-future.org/compatible_idioms.html
+
+
+### `print` is a function now
+
+Now the `print` statement is a function. Some advantage is
+
+- Use `print(x, end="")` to decide the end char of a print, instead of previous `print x,`
+- Use `print(x, file=f)` to determine the output pipe instead of `print >>f, x`
+- Use `print(x, y, z, sep="")` to determine the separation between strings. Previously you have no choice.
+
+Python `2to3` binary can change `print` quickly.
+
+### `Views` and `Iterators` instead of `List`
+
+Some APIs no longer return list
+
+- `dict.keys()`, `dict.items()` and `dict.values()` now return `views` instead of `list`.
+- `dict.iterkeys()`, `dict.iteritems()` and `dict.itervalues()` are removed
+- `map()` and `filter()` return `iterators`.
+- `range()` return an `iterator`, and `xrange()` is removed.
+- `zip()` returns an `iterator`.
+
+### Integers
+
+- There is no longer `long`.
+- Division
+- `sys.maxint` is removed. But `sys.maxsize` gives an integer larger than any practical list or string index.
+- `repr` of a long integer does not have `L` in it.
+- `Octal` is no longer of the form `0720`. Use `0o720` instead.
+
+## Use tools to convert Py2 code to Py3 compatible
+
+Use `Futurize` or `Moderize`. The later one is more conservative.
+
+This will create a patch. People can apply the patch to the file to create new files.
+
+`Futurize` has two stages. `state1` and `stage2`. Check the document.
+
+# What's our concern?
+
+- Divisions: this should be handled. Use `python -3` or so to crash any division, manually fix all of them. Or I think `futurize` program makes it work pretty well.
+- binary data: we have multiple binary stuffs parsing. This may causes a problem. Hopefully futurize will solve it.
+- __cmp__ may be a concern?
+- How about `cython` code we are regularly using? Some of the code depends on `cython`.
+- Start to use `pathlib` instead of `os.path`. Should not be a big problem right?
+
+Can't think anything else
